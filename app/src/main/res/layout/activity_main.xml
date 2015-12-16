@@ -19,9 +19,94 @@
             android:id="@+id/btnLoadImage" />
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="0.40"
             android:id="@+id/imageTop" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Convert to Grayscale"
+            android:layout_weight="0.05"
+            android:onClick="convertToGrayscaleImage"
+            android:id="@+id/btnConvertToGrayscaleImage" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Reverse"
+            android:layout_weight="0.05"
+            android:onClick="reverseImage"
+            android:id="@+id/btnReverseImage" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Equalize"
+            android:layout_weight="0.05"
+            android:onClick="equalizeImage"
+            android:id="@+id/btnEqualizeImage" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Thresholding"
+            android:layout_weight="0.05"
+            android:onClick="thresholdingImage"
+            android:id="@+id/btnThresholdingImage" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Blurring"
+            android:layout_weight="0.05"
+            android:onClick="blurringImage"
+            android:id="@+id/btnBlurringImage" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:id="@+id/txtBlurringMethod" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Change Method"
+            android:layout_weight="0.05"
+            android:onClick="changeBlurringMethod"
+            android:id="@+id/btnChangeBlurringMethod" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Edge Detection"
+            android:layout_weight="0.05"
+            android:onClick="edgeDetectionImage"
+            android:id="@+id/btnEdgeDetectionImage" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:id="@+id/txtEdgeDetectionOrder" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Change Method"
+            android:layout_weight="0.05"
+            android:onClick="changeEdgeDetectionOrder"
+            android:id="@+id/btnChangeEdgeDetectionOrder" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:id="@+id/txtEdgeDetectionMethod" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Change Method"
+            android:layout_weight="0.05"
+            android:onClick="changeEdgeDetectionMethod"
+            android:id="@+id/btnChangeEdgeDetectionMethod" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Face Detection"
+            android:layout_weight="0.05"
+            android:onClick="faceDetectionImage"
+            android:id="@+id/btnFaceDetectionImage" />
 
     </LinearLayout>
 

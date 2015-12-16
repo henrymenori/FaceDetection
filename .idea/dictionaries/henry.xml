@@ -2,6 +2,15 @@
   <dictionary name="henry">
     <words>
       <w>grayscale</w>
+      <w>homogen</w>
+      <w>konvergen</w>
+      <w>orde</w>
+      <w>prewitt</w>
+      <w>sentroid</w>
+      <w>sobel</w>
+      <w>thresholding</w>
+      <w>valuex</w>
+      <w>valuey</w>
     </words>
   </dictionary>
 </component>
