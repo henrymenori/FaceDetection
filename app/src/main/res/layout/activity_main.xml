@@ -22,6 +22,12 @@
             android:layout_height="0dp"
             android:layout_weight="0.40"
             android:id="@+id/imageTop" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:text="====== Pre-Process ======"
+            android:textSize="24dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -61,7 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="0.05"
-            android:id="@+id/txtBlurringMethod" />
+            android:id="@+id/txtBlurringMethod"
+            android:textSize="18dp" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -69,6 +76,12 @@
             android:layout_weight="0.05"
             android:onClick="changeBlurringMethod"
             android:id="@+id/btnChangeBlurringMethod" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:text="====== Edge Detection ======"
+            android:textSize="24dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -80,11 +93,12 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="0.05"
-            android:id="@+id/txtEdgeDetectionOrder" />
+            android:id="@+id/txtEdgeDetectionOrder"
+            android:textSize="18dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="Change Method"
+            android:text="Change Order"
             android:layout_weight="0.05"
             android:onClick="changeEdgeDetectionOrder"
             android:id="@+id/btnChangeEdgeDetectionOrder" />
@@ -92,7 +106,8 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="0.05"
-            android:id="@+id/txtEdgeDetectionMethod" />
+            android:id="@+id/txtEdgeDetectionMethod"
+            android:textSize="18dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -100,6 +115,12 @@
             android:layout_weight="0.05"
             android:onClick="changeEdgeDetectionMethod"
             android:id="@+id/btnChangeEdgeDetectionMethod" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:text="====== Face Detection ======"
+            android:textSize="24dp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -107,6 +128,12 @@
             android:layout_weight="0.05"
             android:onClick="faceDetectionImage"
             android:id="@+id/btnFaceDetectionImage" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.10"
+            android:id="@+id/txtResult"
+            android:textSize="24dp"/>
 
     </LinearLayout>
 

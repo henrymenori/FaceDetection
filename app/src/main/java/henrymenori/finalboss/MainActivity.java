@@ -19,13 +19,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     // attribute
     ImageView   imageTop;
-    TextView    edgeDetectionOrder, edgeDetectionMethod, blurringMethod;
+    TextView    edgeDetectionOrder, edgeDetectionMethod, blurringMethod, txtresult;
     Bitmap      bmp, bmp1;
     int         height, width;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         blurringMethod      = (TextView)findViewById(R.id.txtBlurringMethod);
         edgeDetectionOrder  = (TextView)findViewById(R.id.txtEdgeDetectionOrder);
         edgeDetectionMethod = (TextView)findViewById(R.id.txtEdgeDetectionMethod);
+        txtresult           = (TextView)findViewById(R.id.txtResult);
 
         blurringMethod.setText("Median");
 
@@ -183,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
         else {
             secondOrderRobinson(bmp1);
         }
+        thresholding(bmp1);
+        reverse(bmp1);
         setImage(imageTop, bmp1);
     }
 
@@ -426,10 +430,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void zeroOrderHomogen(Bitmap bm) {
         int[]   neighbour;
-        int     value, max;
+        int     value, max, multiply;
         Bitmap  temp;
 
         temp = imageCopy(bm);
+        multiply = 8;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 max = 0;
@@ -443,6 +448,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+                if(max * multiply > 255) {
+                    max = 255;
+                }
+                else {
+                    max = max * multiply;
+                }
                 setPixelGrayscale(bm, i, j, max);
             }
         }
@@ -450,10 +461,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void zeroOrderDifference(Bitmap bm) {
         int[]   neighbour;
-        int     max;
+        int     max, multiply;
         Bitmap  temp;
 
         temp = imageCopy(bm);
+        multiply = 8;
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 max = 0;
@@ -464,6 +476,12 @@ public class MainActivity extends AppCompatActivity {
                             max = Math.abs(neighbour[k] - neighbour[k + 4]);
                         }
                     }
+                }
+                if(max * multiply > 255) {
+                    max = 255;
+                }
+                else {
+                    max = max * multiply;
                 }
                 setPixelGrayscale(bm, i, j, max);
             }
@@ -519,8 +537,11 @@ public class MainActivity extends AppCompatActivity {
                     valuey = getPixelGrayscale(temp, i + 1, j) - getPixelGrayscale(temp, i, j + 1);
                     value = (int) Math.sqrt(Math.pow(valuex, 2) + Math.pow(valuey, 2));
 
-                    if(value > 255) {
+                    if(value * 5 > 255) {
                         value = 255;
+                    }
+                    else {
+                        value = value * 5;
                     }
                 }
                 setPixelGrayscale(bm, i, j, value);
@@ -722,5 +743,141 @@ public class MainActivity extends AppCompatActivity {
                 konvergen = true;
             }
         }
+
+        // get mouth side
+        int max_m, min_m, max_index, min_index;
+
+        max_m = cluster[3].get(0)[0];
+        min_m = cluster[3].get(0)[0];
+        max_index = 0;
+        min_index = 0;
+
+        for(int i = 1; i < cluster[3].size(); i++) {
+            if(max_m < cluster[3].get(i)[0]) {
+                max_m = cluster[3].get(i)[0];
+                max_index = i;
+            }
+            if(min_m > cluster[3].get(i)[0]) {
+                min_m = cluster[3].get(i)[0];
+                min_index = i;
+            }
+        }
+        Integer[][] input = {
+                cluster[0].get(0),
+                cluster[1].get(0),
+                cluster[2].get(0),
+                cluster[3].get(min_index),
+                cluster[3].get(max_index)
+        };
+
+        txtresult.setText("Result : " + faceRatio(input));
+    }
+
+    public void colorMap(Bitmap bm) {
+        int[]   map = {233, 200, 191};
+        int[]   pixel;
+        int     range;
+
+        for(int i = 0; i < width; i++) {
+            for(int j = 0; j < height; j++) {
+                pixel = getPixelColor(bm, i, j);
+                range = Math.abs(pixel[0] - map[0]) +
+                        Math.abs(pixel[1] - map[1]) +
+                        Math.abs(pixel[2] - map[2]);
+                if(range < 90) {
+                    setPixelColor(bm, i, j, 255, 0, 255);
+                }
+                else {
+                    setPixelColor(bm, i, j, 0, 255, 0);
+                }
+            }
+        }
+    }
+
+    public String faceRatio(Integer[][] input) {
+        double[][] data = {
+            {237.93, 246.01, 208.6,  213.6},
+            {252.49, 252.75, 214.96, 219.27},
+            {279.30, 292.96, 254.15, 267.23},
+            {302.18, 295.42, 219.31, 211.824},
+            {274.42, 253.56, 187.20, 217.71},
+            {363.27, 352.28, 321.30, 324.15},
+            {258.44, 278.99, 254,	 263,53},
+            {332,	 322.64, 274.4,	 291.67},
+            {704.7,	 769.3,	 887.5,	 852.2},
+            {674.9,	 654.9,	 683.4,	 639},
+            {312.8,	 305.8,	 247.8,	 242.8},
+            {250.60, 258.36, 229.02, 201.24},
+            {295.66, 291.67, 197.99, 235.22},
+            {249.83, 245.35, 237.66, 249.04},
+            {282,	 275,	 247,	 247},
+            {266.11, 284.55, 263.11, 260.72},
+            {247.88, 207.39, 240,83, 243.32},
+            {215.23, 198.07, 241.48, 274.54},
+            {218.19, 188.86, 221.27, 260.40},
+            {234.80, 199.29, 219.92, 268.50},
+            {604.15, 557.04, 667.87, 680.87},
+            {316.65, 286.05, 172.54, 257.41},
+            {313.96, 293.47, 250.06, 268.60},
+            {335.57, 341.56, 464.13, 389.50},
+            {525.13, 555.11, 430.20, 428.70},
+            {76.00,	 72.25,	 57.14,	 58.80},
+            {236.18, 235.93, 202.50, 212.44},
+            {247.29, 247.66, 216.89, 213.64},
+            {243.31, 237.12, 171.84, 172.63}
+        };
+
+        double[]    range = new double[4];
+        double      difference, minimum;
+        int         index;
+        String      result;
+
+        minimum = -1.0;
+        index   = 0;
+        for(int i = 0; i < data.length; i++) {
+            range[0] = getRange(input[0],input[2]);
+            range[1] = getRange(input[1],input[2]);
+            range[2] = getRange(input[3],input[2]);
+            range[3] = getRange(input[4], input[2]);
+
+            difference =    Math.abs(range[0] / range[1] - data[i][0] / data[i][1]) +
+                            Math.abs(range[2] / range[3] - data[i][2] / data[i][3]);
+
+            if(minimum > difference || minimum == -1) {
+                minimum = difference;
+                index = i;
+            }
+        }
+
+        if(index == 0) result = "Stephen";
+        else if(index == 1) result = "Lingga";
+        else if(index == 2) result = "Zaky";
+        else if(index == 3) result = "Andre";
+        else if(index == 4) result = "Yafi";
+        else if(index == 5) result = "Rama";
+        else if(index == 6) result = "Kevin Yudi";
+        else if(index == 7) result = "Gilang";
+        else if(index == 8) result = "Riady";
+        else if(index == 9) result = "Ucup";
+        else if(index == 10) result = "Winson";
+        else if(index == 11) result = "Afik";
+        else if(index == 12) result = "Mamat";
+        else if(index == 13) result = "Luthfi";
+        else if(index == 14) result = "Dariel";
+        else if(index == 15) result = "Fahmi";
+        else if(index == 16) result = "Ahmad";
+        else if(index == 17) result = "Bagas";
+        else if(index == 18) result = "Adhika";
+        else if(index == 19) result = "Fauzan";
+        else if(index == 20) result = "Khaidzir";
+        else if(index == 21) result = "Ilmi";
+        else if(index == 22) result = "Ichwan";
+        else if(index == 23) result = "Luqman";
+        else if(index == 24) result = "Tony";
+        else if(index == 25) result = "Menori";
+        else if(index == 26) result = "Eldwin";
+        else result = "Atia";
+
+        return result;
     }
 }
